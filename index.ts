@@ -5,9 +5,13 @@ const port = 3000;
 
 
 app.get('/', (req: Request, res: Response) => {
-    res.send("Hello")
+    const car = {make: "Toyota"}
+    //res.send("Hello")
+    res.send(car)
 })
 
 app.listen(port, () =>{
     console.log("The server is listening on port: " + port)
 })
+
+export default app
