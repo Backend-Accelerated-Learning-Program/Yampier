@@ -1,6 +1,6 @@
 import {describe, expect, it} from '@jest/globals';
 import request from 'supertest';
-import app from'../index'
+import app from'../src/index'
 
 describe("GET /", () =>{
     it("should return Hello", async () => {
