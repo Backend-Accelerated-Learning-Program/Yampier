@@ -3,4 +3,9 @@
     "execMap": {
         "ts": "ts-node"
     }
+    ,
+    "env": {
+        "MONGO_URL" : "mongodb+srv://yampierfernandez:9d3mJTh6VHkC1Ndy@cluster0.4bgofxc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+        "PORT" : "5000"
+    }
 }

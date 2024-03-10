@@ -1,23 +1,12 @@
-import express, { Express, Request, Response } from "express";
-import { itemRouter, playerRouter, weaponRouter } from "./router";
-const app: Express = express();
-const port = 3000;
+import * as dotenv from 'dotenv'
+import app from "./app";
+import mongoose from "mongoose";
 
-app.use(express.json());
-
-app.use('/player', playerRouter);
-app.use('/item', itemRouter);
-app.use('/weapon', weaponRouter);
+dotenv.config({path:'../.env'})
 
 
-app.get('/', (req: Request, res: Response) => {
-    const car = {make: "Toyota"}
-    //res.send("Hello")
-    res.send(car)
+
+mongoose.connect(process.env.MONGO_URL!).then(()=>{
+    console.log('connected to database...');
+    app.listen(process.env.PORT);
 })
-
-app.listen(port, () =>{
-    console.log("The server is listening on port: " + port)
-})
-
-export default app
