@@ -21,7 +21,9 @@ export const put= async(req: Request, res: Response) => {
     res.send(doc);
 }
 
-export const get=async (req: Request, res: Response, next: NextFunction) => {
+
+
+export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
 
         const data = await PlayerModel.find({});
@@ -30,11 +32,25 @@ export const get=async (req: Request, res: Response, next: NextFunction) => {
         if(data.length == 0)   throw new Error(ERROR_TYPES.notFoundError.message)  
     
     res.status(200).send(data)
-    } catch (error) {
+    } catch (error) { 
         next(error)
-        
     }
 }
+export const getActive = async (req: Request, res: Response, next: NextFunction) => {
+   try  {
+
+        const data = await PlayerModel.find({ active:true });
+
+        if(!data)              throw new Error(ERROR_TYPES.internalError.message)
+        if(data.length == 0)   throw new Error(ERROR_TYPES.notFoundError.message)  
+    
+    res.status(200).send(data)
+    } catch (error) {
+        next(error)
+    }
+}
+
+
 export const getById=async (req: Request, res: Response, next: NextFunction) => {
     try {
     const{_id} = req.params
@@ -43,14 +59,43 @@ export const getById=async (req: Request, res: Response, next: NextFunction) => 
     })
 
     if(!data)              throw new Error(ERROR_TYPES.notFoundError.message)
-
-
     res.status(200).send(data)
     } catch (error) {
         next(error)
-        
     }
-
-
-    
+   
 }
+
+export const remove=async (req: Request, res: Response, next: NextFunction) => {
+    try {
+    const{_id} = req.params
+    const filter = { _id: _id }
+    const options = { "new": true } //confirm that you want to change
+    const doc=await PlayerModel.findOneAndUpdate(filter, { active:false }, options ).catch(error=>{
+        throw new Error(ERROR_TYPES.badRequestError.message)
+    })
+
+    if(!doc)              throw new Error(ERROR_TYPES.notFoundError.message)
+    res.status(200).send(doc)
+    } catch (error) {
+        next(error)
+    }
+   
+}
+export const restore=async (req: Request, res: Response, next: NextFunction) => {
+    try {
+    const{_id} = req.params
+    const filter = { _id: _id }
+    const options = { "new": true } //confirm that you want to change
+    const doc=await PlayerModel.findOneAndUpdate(filter, { active:true }, options ).catch(error=>{
+        throw new Error(ERROR_TYPES.badRequestError.message)
+    })
+
+    if(!doc)              throw new Error(ERROR_TYPES.notFoundError.message)
+    res.status(200).send(doc)
+    } catch (error) {
+        next(error)
+    }
+   
+}
+
