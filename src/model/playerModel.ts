@@ -7,7 +7,7 @@ const PlayerSchema = new mongoose.Schema<IPlayer>({
     type: String,
     required: true
    },
-   class: {
+   job: {
       type: String,
       required: true,
       default: "Rookie"
