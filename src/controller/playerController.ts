@@ -54,12 +54,14 @@ export const getActive = async (req: Request, res: Response, next: NextFunction)
 export const getById=async (req: Request, res: Response, next: NextFunction) => {
     try {
     const{_id} = req.params
-    const data = await PlayerModel.findById({_id}).catch(error=>{
+    const doc = await PlayerModel.findById({_id}).catch(error=>{
         throw new Error(ERROR_TYPES.badRequestError.message)
     })
 
-    if(!data)              throw new Error(ERROR_TYPES.notFoundError.message)
-    res.status(200).send(data)
+    if(!doc)              throw new Error(ERROR_TYPES.notFoundError.message)
+
+
+    res.status(200).send(doc)
     } catch (error) {
         next(error)
     }
