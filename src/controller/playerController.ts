@@ -1,15 +1,15 @@
 import {  NextFunction, Request, Response } from "express";
 import PlayerModel from "../model/playerModel";
 import { ERROR_TYPES } from "../middleware/errorHandler";
-
+import { createInventory, getInventory } from "./inventoryController";
 //Use the moongose documentation to find out how to do functions(like post, put, get, etc.)
 export const post= async(req: Request, res: Response) => {
     const data = req.body;
-
     const player = new PlayerModel(data)
-    const doc=await player.save();
+    const doc= await player.save();
+    const inventory = await createInventory(doc._id);
 
-    res.send(doc);
+    res.send({...doc.toJSON(), inventory});
 }
 
 export const put= async(req: Request, res: Response) => {
@@ -59,9 +59,9 @@ export const getById=async (req: Request, res: Response, next: NextFunction) => 
     })
 
     if(!doc)              throw new Error(ERROR_TYPES.notFoundError.message)
+    const inventory= await getInventory( doc._id );
 
-
-    res.status(200).send(doc)
+    res.status(200).send({...doc.toJSON(), inventory})
     } catch (error) {
         next(error)
     }

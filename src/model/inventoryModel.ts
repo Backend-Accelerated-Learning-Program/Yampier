@@ -10,7 +10,7 @@ function calculateMaxXP(LVL: number): number{
 
 const InventorySchema = new mongoose.Schema<IInventory<IArmor, IConsumable, IWeapon>>({
    player: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Types.ObjectId,
       ref: 'Player',
       required: true
    },
